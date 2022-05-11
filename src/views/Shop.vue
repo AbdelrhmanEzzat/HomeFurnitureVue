@@ -298,9 +298,32 @@
               </div>
             </div>
             <!-- ------------------- -->
-            <div class="col-md-9">
-              <shop-p v-for="item in list" :key="item.id">
-                <div class="row product-list">
+
+
+                        <div class="col-lg-9">
+                <div class="row mt-4">
+                    <div class="col-lg-4 col-md-6 mb-4" v-for="item in list" v-bind:key="item.id"  
+              v-bind:item="item">
+                        <div class="card h-100">
+                            <a href="#">
+                                <img class="card-img-top" src="http://placehold.it/700x400" alt="">
+                            </a>
+                            <div class="card-body">
+                                <h4 class="card-title">
+                                    <a href="#">{{ item.product_name  }}</a>
+                                </h4>
+                                <h5>$ {{ item.cost }}</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- <div  class="col-md-9">
+              <div v-for="item in list" v-bind:key="item.id"  
+              v-bind:item="item"
+              >
+                <div  class="row product-list">
                   <div class="col-md-4">
                     <div class="product-grid7">
                       <div class="product-image7">
@@ -317,7 +340,7 @@
                       </div>
                       <div class="product-content">
                         <h3 class="title">
-                          <a href="#">{{ item.product_name }}</a>
+                          <a href="#" >{{ item.product_name }}</a>
                         </h3>
                         <ul class="rating">
                           <li class="fa fa-star"></li>
@@ -326,14 +349,14 @@
                         </ul>
                         <div class="price">
                           {{ item.cost }}
-                          <!-- <span>{{ item.selling_price }}</span> -->
+                         
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </shop-p>
-            </div>
+              </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -440,18 +463,42 @@ export default {
       sliders: {
         simple: 40,
         rangeSlider: [20, 60],
-        list: undefined,
+        
       },
+        list: [],
+      errors: []
     };
   },
-  async mounted() {
-    await Vue.axios
-      .get("https://homefurniture00.000webhostapp.com/api/products")
-      .then((resp) => {
-        this.list = resp.data;
-        console.warn(resp.data);
-      });
+  // async mounted() {
+  //   await Vue.axios
+  //     .get("https://homefurniture00.000webhostapp.com/api/products")
+  //     .then((resp) => {
+  //       this.list = resp.data;
+  //       console.warn(resp.data);
+  //     });
+  // },
+
+
+// created() {
+//     axios.get(`https://homefurniture00.000webhostapp.com/api/products`)
+//     .then(response => {
+//       // JSON responses are automatically parsed.
+//       this.list = response.data
+//     })
+//     .catch(e => {
+//       this.errors.push(e)
+//     })
+//   },
+// Fetches posts when the component is created.
+  async created() {
+    try {
+      const response = await axios.get(`https://homefurniture00.000webhostapp.com/api/products`)
+      this.list = response.data
+    } catch (e) {
+      this.errors.push(e)
+    }
   },
+  
   methods: {},
   computed: {
     headerStyle() {
